@@ -1,4 +1,5 @@
 import boto3
+import sys
 
 EVENT_BUS_NAME = 'fs-event-bus'
 EVENT_DETAIL = '{"test":"event"}'
@@ -37,4 +38,12 @@ def calculate_batch_sizes(number_of_events):
 
 
 if __name__ == '__main__':
-    batch_put_events(300)
+    args = sys.argv
+    print(args)
+    if len(args) != 2:
+        print('Must provide one argument for the number of events to send')
+        sys.exit()
+    if not args[1].isdigit():
+        print('Number of events to send must be numeric')
+        sys.exit()
+    batch_put_events(int(args[1]))
